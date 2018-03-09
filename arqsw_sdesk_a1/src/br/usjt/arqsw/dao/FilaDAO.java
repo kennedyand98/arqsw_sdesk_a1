@@ -43,12 +43,20 @@ public class FilaDAO {
 					fila.setNome(rs.getString("nm_fila"));
 				}else {
 					fila.setId(-1);
+					fila.setNome("Não teve resultados na busca");
 				}
 			} catch (SQLException e) {
-				throw new IOException(e);
+				/**throw new IOException(e);
+				 * 
+				 */
+				e.printStackTrace();
 			}
 		}catch (SQLException e) {
-			throw new IOException(e);
+			/**throw new IOException(e);
+			/
+			 * 
+			 */
+			e.printStackTrace();
 		}
 		return fila;
 	}

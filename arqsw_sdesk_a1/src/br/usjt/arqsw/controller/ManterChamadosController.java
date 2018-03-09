@@ -1,6 +1,7 @@
 package br.usjt.arqsw.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -10,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
+import br.usjt.arqsw.service.ChamadoService;
 import br.usjt.arqsw.service.FilaService;
 /**
  * 
@@ -20,9 +23,11 @@ import br.usjt.arqsw.service.FilaService;
 @Controller
 public class ManterChamadosController {
 	private FilaService filaService;
+	private ChamadoService chamadoService;
 
 	public ManterChamadosController() {
 		filaService = new FilaService();
+		chamadoService = new ChamadoService();
 	}
 
 	/**
@@ -55,7 +60,7 @@ public class ManterChamadosController {
 	}
 	
 	@RequestMapping("/listar_chamados_exibir")
-	public String listarChamadosExibir(@Valid Fila fila, BindingResult result, Model model) {
+	public String listarChamadosExibir(Fila fila, BindingResult result, Model model) {
 		try {
 			if (result.hasFieldErrors("id")) {
 				model.addAttribute("filas", listarFilas());
@@ -65,9 +70,10 @@ public class ManterChamadosController {
 			}
 			fila = filaService.carregar(fila.getId());
 			model.addAttribute("fila", fila);
-
-			// TODO Código para carregar os chamados
-			System.out.println("Falta implementar o restante do código.");
+			ArrayList<Chamado> chamados = new ArrayList<>();
+			chamados = chamadoService.listarChamados(fila);
+			
+			model.addAttribute("chamados", chamados);
 			
 			return "ChamadoListarExibir"; //JSP
 
