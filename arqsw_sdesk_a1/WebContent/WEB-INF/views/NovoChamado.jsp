@@ -17,11 +17,11 @@
 	<c:import url="Menu.jsp" />
 	<div id="main" class="container align-center">
         <h3 class="page-header">Novo Chamado</h3>
-        <form action="/salvar_novo_chamado" method="get">
+        <form action="salvar_novo_chamado" method="get">
         	<div class="row">
-        		<label for="descricao">Descrição:</label>
+        		<label>Descrição:</label>
                     <form:errors path="chamado.descricao" cssStyle="color:red"/><br>
-                    <input type="text" id="descricao" class="form-control" >
+                    <input type="text" id="descricao" name="descricao" class="form-control" >
         	</div>
         	<br><br>
         	<div class="row">

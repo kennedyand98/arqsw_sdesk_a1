@@ -1,14 +1,15 @@
 package br.usjt.arqsw.dao;
 
 import java.io.IOException;
-
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
@@ -43,24 +44,29 @@ public class ChamadoDAO {
 	}
 	
 	public Chamado salvarNovoChamado(Fila fila, Chamado chamado) throws IOException {
-		String query = "INSERT INTO CHAMADO (DESCRICAO, STATUS, DT_ABERTURA, ID_FILA) VALUES"
-				+ "?, ?, ?, ? ";
-		Date data = new java.sql.Date(new java.util.Date().getTime());
-		try(Connection conn = ConnectionFactory.getConnection();
-			PreparedStatement stm = conn.prepareStatement(query);){
+		String query = "INSERT INTO chamado (DESCRICAO, STATUS, DT_ABERTURA, ID_FILA) VALUES"
+				+ " (?, ?, ?, ?) ";
+		
+		Date date = new Date();		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		try (PreparedStatement stm = ConnectionFactory.getConnection().prepareStatement(query);){
 			stm.setString(1, chamado.getDescricao().toUpperCase());
 			stm.setString(2, "ABERTO");
-			stm.setDate(3, data);
+			stm.setString(3, format.format(date));
 			stm.setInt(4, fila.getId());
-			try(ResultSet rs = stm.executeQuery();) {
-				if (rs.next()) {
-					chamado.setId(rs.getInt("ID_CHAMADO"));
-				}
-			}catch (SQLException e) {
-				throw new IOException(e);
-			}
-		}catch (SQLException e) {
-			throw new IOException(e);
+			stm.execute();
+			String sqlQuery = "SELECT LAST_INSERT_id()"; /* PRECISA FAZER ESSE SELECT RETORNAR O ULTIMO ID*/
+			try (PreparedStatement stm2 = ConnectionFactory.getConnection().prepareStatement(sqlQuery);
+					ResultSet rs = stm2.executeQuery();){
+						if(rs.next()) {
+							chamado.setId(rs.getInt("ID_CHAMADO"));
+						}
+					} catch (SQLException e) {
+						throw new IOException(e);
+					}
+		}catch(SQLException e1) {
+			throw new IOException(e1);
 		}
 		return chamado;
 	}
