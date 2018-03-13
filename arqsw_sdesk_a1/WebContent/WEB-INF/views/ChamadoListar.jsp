@@ -37,7 +37,6 @@
             </div>
             <div id="actions" class="row">
                 <div class="col-md-12">
-                	<a href="listar_chamados_exibir" class="btn btn-primary">Chamados</a>
                     <button type="submit" class="btn btn-primary" >Listar Chamados</button>
                     <a href="index" class="btn btn-default">Cancelar</a>
                 </div>

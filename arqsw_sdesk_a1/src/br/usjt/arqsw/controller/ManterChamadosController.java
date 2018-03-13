@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -81,6 +79,27 @@ public class ManterChamadosController {
 			e.printStackTrace();
 			return "Erro";
 		}
+	}
+	@RequestMapping("/criar_novo_chamado")
+	public String criarNovoChamado(Model model) {
+		
+		try {
+			model.addAttribute("filas", listarFilas());
+			return "NovoChamado";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "Erro";
+		}
+		
+	}
+	@RequestMapping("salvar_novo_chamado")
+	public String salvarNovoChamado(Fila fila, Chamado chamado, BindingResult result, Model model) throws IOException {
+		
+		chamado = chamadoService.salvarNovoChamado(fila, chamado);
+		
+		model.addAttribute("chamado", chamado);
+		
+		return "ChamadoSalvo";
 	}
 
 }

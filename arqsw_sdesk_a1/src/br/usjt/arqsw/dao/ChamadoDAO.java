@@ -1,10 +1,13 @@
 package br.usjt.arqsw.dao;
 
 import java.io.IOException;
+
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import br.usjt.arqsw.entity.Chamado;
@@ -37,6 +40,29 @@ public class ChamadoDAO {
 			throw new IOException(e);
 		}		
 		return chamados;
+	}
+	
+	public Chamado salvarNovoChamado(Fila fila, Chamado chamado) throws IOException {
+		String query = "INSERT INTO CHAMADO (DESCRICAO, STATUS, DT_ABERTURA, ID_FILA) VALUES"
+				+ "?, ?, ?, ? ";
+		Date data = new java.sql.Date(new java.util.Date().getTime());
+		try(Connection conn = ConnectionFactory.getConnection();
+			PreparedStatement stm = conn.prepareStatement(query);){
+			stm.setString(1, chamado.getDescricao().toUpperCase());
+			stm.setString(2, "ABERTO");
+			stm.setDate(3, data);
+			stm.setInt(4, fila.getId());
+			try(ResultSet rs = stm.executeQuery();) {
+				if (rs.next()) {
+					chamado.setId(rs.getInt("ID_CHAMADO"));
+				}
+			}catch (SQLException e) {
+				throw new IOException(e);
+			}
+		}catch (SQLException e) {
+			throw new IOException(e);
+		}
+		return chamado;
 	}
 
 }

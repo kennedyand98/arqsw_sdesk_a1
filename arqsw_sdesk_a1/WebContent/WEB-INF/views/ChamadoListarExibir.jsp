@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"   pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -13,18 +14,55 @@
 <title>Lista de Chamados</title>
 </head>
 <body>
-	<div class="header">
-		<h2>
-        	${fila.nome }
-        	${fila.id }
-		</h2>
-	</div>
-	<table class="table">
-		<thead class="thead-inverse">
-	
-		</thead>
-	</table>
-
-
+	<c:import url="Menu.jsp" />
+	<section class="content">
+    	<div class="container-fluid">
+			<div class="col-lg-1 col-md-6 col-sm-6 col-xs-6">
+				<a href="index" class="btn btn-info">Início</a>
+				
+			</div>
+			<div class="col-lg-12 col-md-6 col-sm-6 col-xs-6">
+				<h4 style="text-align:center">${fila.nome }</h4>
+			</div><br><br>
+			<table class="table table-bordered table-striped table-hover" border="1">
+				<thead class="thead-dark">
+					<tr>
+						<th><p class="text-center">Número</p></th>
+						<th><p class="text-center">Descrição</p></th>
+						<th><p class="text-center">Abertura</p></th>
+						<th><p class="text-center">Fechamento</p></th>
+						<th><p class="text-center">Status</p></th>
+						<th><p class="text-center">Tempo</p></th>
+					</tr>
+				</thead>
+				<tbody>
+					<!--  Começa o ForEach -->
+		        	<c:forEach var="chamado" items="${chamados}">
+		        		<tr>
+		        			<td data-name="tblId">
+		        				<p class="text-center">${chamado.id}</p>
+		        			</td>
+		        			<td data-name="tblDescricao">
+		        				<p class="text-center">${chamado.descricao}</p>
+		       				</td>
+		       				<td data-name="tblAbertura">
+		       					<p class="text-center"><fmt:formatDate value="${chamado.dataAbertura}"/> </p>
+		       				</td>
+		       				<td data-name="tblFechamento">
+		       					<p class="text-center"><fmt:formatDate value="${chamado.dataFechamento}"/></p>
+		      				</td>
+		      				<td data-name="nivel">
+		      					<p class="text-center">${chamado.status}</p>
+		      				</td>
+		      				<td data-name="tblStatus">
+		      					<p class="text-center">${chamado.tempo}</p>
+		      		</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</section>	
 </body>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </html>
