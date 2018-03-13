@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
+
+import com.mysql.jdbc.Statement;
 
 import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
@@ -45,28 +45,23 @@ public class ChamadoDAO {
 	
 	public Chamado salvarNovoChamado(Fila fila, Chamado chamado) throws IOException {
 		String query = "INSERT INTO chamado (DESCRICAO, STATUS, DT_ABERTURA, ID_FILA) VALUES"
-				+ " (?, ?, ?, ?) ";
+				+ " (?, ?, ?, ?)";
 		
 		Date date = new Date();		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
-		try (PreparedStatement stm = ConnectionFactory.getConnection().prepareStatement(query);){
+		try (PreparedStatement stm = ConnectionFactory.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);){
 			stm.setString(1, chamado.getDescricao().toUpperCase());
 			stm.setString(2, "ABERTO");
 			stm.setString(3, format.format(date));
 			stm.setInt(4, fila.getId());
 			stm.execute();
-			String sqlQuery = "SELECT LAST_INSERT_id()"; /* PRECISA FAZER ESSE SELECT RETORNAR O ULTIMO ID*/
-			try (PreparedStatement stm2 = ConnectionFactory.getConnection().prepareStatement(sqlQuery);
-					ResultSet rs = stm2.executeQuery();){
-						if(rs.next()) {
-							chamado.setId(rs.getInt("ID_CHAMADO"));
-						}
-					} catch (SQLException e) {
-						throw new IOException(e);
-					}
-		}catch(SQLException e1) {
-			throw new IOException(e1);
+			ResultSet rs = stm.getGeneratedKeys();
+			if(rs.next()) {
+				chamado.setId(rs.getInt(1));
+			}
+		} catch (SQLException e) {
+			throw new IOException(e);
 		}
 		return chamado;
 	}

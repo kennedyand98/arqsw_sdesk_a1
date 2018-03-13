@@ -46,16 +46,22 @@
 		        				<p class="text-center">${chamado.descricao}</p>
 		       				</td>
 		       				<td data-name="tblAbertura">
-		       					<p class="text-center"><fmt:formatDate value="${chamado.dataAbertura}"/> </p>
+		       					<p class="text-center"><fmt:formatDate pattern="dd/MM/yyyy" value="${chamado.dataAbertura}"/> </p>
 		       				</td>
 		       				<td data-name="tblFechamento">
-		       					<p class="text-center"><fmt:formatDate value="${chamado.dataFechamento}"/></p>
+		       					<p class="text-center"><fmt:formatDate pattern="dd/MM/yyyy" value="${chamado.dataFechamento}"/></p>
 		      				</td>
 		      				<td data-name="nivel">
 		      					<p class="text-center">${chamado.status}</p>
 		      				</td>
+		      				<c:set var="abertura" value="${chamado.dataAbertura.getTime() }"/>
+		      				<c:set var="fechamento" value="${chamado.dataFechamento.getTime() }"/>
+		      				<c:set var="tempo" value="${(fechamento - abertura)/(1000*60*60*24)}"/>
+		      				<c:if test="${tempo lt 0 }"><c:set var="tempo" value="0"></c:set></c:if>
 		      				<td data-name="tblStatus">
-		      					<p class="text-center">${chamado.tempo}</p>
+		      					<p class="text-center"><fmt:formatNumber type="number" value="${tempo }"></fmt:formatNumber></p>
+	      					</td>
+      					</tr>
 		      		</c:forEach>
 				</tbody>
 			</table>
