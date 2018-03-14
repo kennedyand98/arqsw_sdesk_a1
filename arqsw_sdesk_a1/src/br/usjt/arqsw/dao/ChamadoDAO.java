@@ -8,19 +8,26 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
+import javax.sql.DataSource;
 import com.mysql.jdbc.Statement;
-
 import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
 
 public class ChamadoDAO {
+	private Connection conn;
+	
+	public ChamadoDAO(DataSource dataSource) throws IOException{
+		try {
+			this.conn = dataSource.getConnection();
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+	}
 	
 	public ArrayList<Chamado> listarChamados(Fila fila) throws IOException{
 		String query = "SELECT ID_CHAMADO, DESCRICAO, STATUS, DT_ABERTURA, DT_FECHAMENTO, ID_FILA FROM CHAMADO WHERE ID_FILA = ?";
 		ArrayList<Chamado> chamados = new ArrayList<>();
-		try(Connection conn = ConnectionFactory.getConnection();
-			PreparedStatement stm = conn.prepareStatement(query);){
+		try(PreparedStatement stm = conn.prepareStatement(query);){
 			stm.setInt(1, fila.getId());
 				try(ResultSet rs = stm.executeQuery();) {
 					while(rs.next()) {
@@ -50,7 +57,7 @@ public class ChamadoDAO {
 		Date date = new Date();		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
-		try (PreparedStatement stm = ConnectionFactory.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);){
+		try (PreparedStatement stm = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);){
 			stm.setString(1, chamado.getDescricao().toUpperCase());
 			stm.setString(2, "ABERTO");
 			stm.setString(3, format.format(date));

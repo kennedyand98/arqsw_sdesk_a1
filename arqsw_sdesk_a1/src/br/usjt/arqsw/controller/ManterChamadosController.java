@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,17 +16,19 @@ import br.usjt.arqsw.service.ChamadoService;
 import br.usjt.arqsw.service.FilaService;
 /**
  * 
- * @author asbonato
+ * @author Kennedy Mota
  *
  */
 @Controller
 public class ManterChamadosController {
 	private FilaService filaService;
 	private ChamadoService chamadoService;
-
-	public ManterChamadosController() {
-		filaService = new FilaService();
-		chamadoService = new ChamadoService();
+	
+	
+	@Autowired
+	public ManterChamadosController(FilaService filaService, ChamadoService chamadoService) {
+		this.chamadoService = chamadoService;
+		this.filaService = filaService;
 	}
 
 	/**

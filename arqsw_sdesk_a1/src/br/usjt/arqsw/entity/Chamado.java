@@ -3,7 +3,6 @@ package br.usjt.arqsw.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

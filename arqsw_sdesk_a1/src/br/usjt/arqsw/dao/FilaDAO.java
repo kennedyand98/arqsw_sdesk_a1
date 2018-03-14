@@ -7,15 +7,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.sql.DataSource;
 import br.usjt.arqsw.entity.Fila;
 
 public class FilaDAO {
-
+	private Connection conn;
+	
+	public FilaDAO(DataSource dataSource) throws IOException{
+		try {
+			this.conn = dataSource.getConnection();
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+	}
 	public ArrayList<Fila> listarFilas() throws IOException {
 		String query = "select id_fila, nm_fila from fila";
 		ArrayList<Fila> lista = new ArrayList<>();
-		try(Connection conn = ConnectionFactory.getConnection();
-			PreparedStatement pst = conn.prepareStatement(query);
+		try(PreparedStatement pst = conn.prepareStatement(query);
 			ResultSet rs = pst.executeQuery();){
 			
 			while(rs.next()) {
@@ -34,8 +42,7 @@ public class FilaDAO {
 	public Fila carregar(int id) throws IOException {
 		Fila fila = new Fila();
 		String query = "select id_fila, nm_fila from fila WHERE id_fila = ?";
-		try(Connection conn = ConnectionFactory.getConnection();
-				PreparedStatement stm = conn.prepareStatement(query);){
+		try(PreparedStatement stm = conn.prepareStatement(query);){
 			stm.setInt(1, id);
 			try(ResultSet rs = stm.executeQuery();){
 				if(rs.next()) {
