@@ -8,14 +8,24 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.mysql.jdbc.Statement;
+
 import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
 
+
+
+@Repository
 public class ChamadoDAO {
 	private Connection conn;
 	
+	@Autowired
 	public ChamadoDAO(DataSource dataSource) throws IOException{
 		try {
 			this.conn = dataSource.getConnection();

@@ -24,5 +24,8 @@
 		<property name="username" value="root"></property>
 		<property name="password" value="root"></property>
 	</bean>
+	<mvc:interceptors>
+		<bean class="br.usjt.arqsw.interceptor.AutorizadorInterceptor"/>
+	</mvc:interceptors>
 </beans>
 

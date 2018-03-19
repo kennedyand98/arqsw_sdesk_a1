@@ -8,11 +8,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import br.usjt.arqsw.entity.Fila;
 
+
+@Repository
 public class FilaDAO {
 	private Connection conn;
 	
+	@Autowired
 	public FilaDAO(DataSource dataSource) throws IOException{
 		try {
 			this.conn = dataSource.getConnection();
