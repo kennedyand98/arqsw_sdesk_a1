@@ -1,20 +1,13 @@
 package br.usjt.arqsw.dao;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
-import javax.sql.DataSource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import com.mysql.jdbc.Statement;
 
 import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
@@ -23,18 +16,25 @@ import br.usjt.arqsw.entity.Fila;
 
 @Repository
 public class ChamadoDAO {
-	private Connection conn;
+	@PersistenceContext
+	EntityManager manager;
 	
-	@Autowired
-	public ChamadoDAO(DataSource dataSource) throws IOException{
-		try {
-			this.conn = dataSource.getConnection();
-		} catch (SQLException e) {
-			throw new IOException(e);
-		}
+	
+	public List<Chamado> listarChamados(Fila fila) throws IOException{
+		//conectei minha fila com a persistencia
+		fila = manager.find(Fila.class, fila.getId());
+		
+		String sqlQuery = "SELECT c FROM Chamado c WHERE c.fila = :fila";
+		
+		Query query = manager.createQuery(sqlQuery);
+		query.setParameter("fila", fila);
+		
+		List<Chamado> result = query.getResultList();
+		return result;		
+		
 	}
 	
-	public ArrayList<Chamado> listarChamados(Fila fila) throws IOException{
+	/*public ArrayList<Chamado> listarChamados(Fila fila) throws IOException{
 		String query = "SELECT ID_CHAMADO, DESCRICAO, STATUS, DT_ABERTURA, DT_FECHAMENTO, ID_FILA FROM CHAMADO WHERE ID_FILA = ?";
 		ArrayList<Chamado> chamados = new ArrayList<>();
 		try(PreparedStatement stm = conn.prepareStatement(query);){
@@ -58,9 +58,15 @@ public class ChamadoDAO {
 			throw new IOException(e);
 		}		
 		return chamados;
+	}*/
+	
+	public Chamado salvarNovoChamado(Fila fila, Chamado chamado) throws IOException{
+		manager.persist(chamado);
+		return chamado;
 	}
 	
-	public Chamado salvarNovoChamado(Fila fila, Chamado chamado) throws IOException {
+	
+	/*public Chamado salvarNovoChamado(Fila fila, Chamado chamado) throws IOException {
 		String query = "INSERT INTO chamado (DESCRICAO, STATUS, DT_ABERTURA, ID_FILA) VALUES"
 				+ " (?, ?, ?, ?)";
 		
@@ -81,6 +87,6 @@ public class ChamadoDAO {
 			throw new IOException(e);
 		}
 		return chamado;
-	}
+	}*/
 
 }

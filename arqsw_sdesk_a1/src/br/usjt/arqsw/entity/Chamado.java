@@ -1,38 +1,71 @@
 package br.usjt.arqsw.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
-import javax.validation.constraints.Min;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class Chamado implements Serializable {
+
+@Entity
+public class Chamado {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	@NotNull (message="O chamado precisa ter um ID")
-	@Min(value=1, message="O chamado não pode ser vazio")
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="ID_CHAMADO")
 	private int id;
 	
 	@NotNull
-	@Size(min=10, max=100, message="A descrição tem que ter entre 10 e 100 caracteres")
+	//@Column(name="DESCRICAO")
+	@Size(max=100)
 	private String descricao;
 	
+	
 	@NotNull
+	//@Column(name="STATUS")
 	private String status;
 	
 	@NotNull
+	@Column(name="DT_ABERTURA")
 	private Date dataAbertura;
 	
+	@Column(name="DT_FECHAMENTO")
 	private Date dataFechamento;
 	
 	
 	@NotNull(message="Não pode ser vazio")
+	@ManyToOne
+	@JoinColumn(name="ID_FILA")
 	private Fila fila;
+	
+	
+	public static final String ABERTO = "aberto";
+	public static final String FECHADO = "fechado";
 
+	/*public int getTempoDias(){
+		//getTime e currentTimeMillis retornam o tempo em milisegundos
+		//dividir por 1000 * 60 * 60 * 24 converte para dias
+		int dias;
+		if(dataFechamento == null){
+			//considera o momento atual para calcular o tempo aberto
+			dias =  (int)(System.currentTimeMillis() - dataAbertura.getTime())/(1000 * 60 * 60 * 24);
+		} else {
+			//considera a data de fechamento para calcular o tempo aberto
+			dias = (int)(dataFechamento.getTime() - dataAbertura.getTime())/(1000 * 60 * 60 * 24);
+		}
+		return dias;
+	}*/
+	
+	
 
 	public int getId() {
 		return id;

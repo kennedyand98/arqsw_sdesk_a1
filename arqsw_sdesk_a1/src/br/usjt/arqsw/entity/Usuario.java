@@ -1,26 +1,35 @@
 package br.usjt.arqsw.entity;
 
-import java.io.Serializable;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class Usuario implements Serializable{
+
+@Entity
+public class Usuario{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	
-	@NotNull
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private int id;
+	
 	
 	@NotNull (message="Usuário não pode ser vázio!")
 	@Size(min=5, max=50, message="Usuário minímo 5 - máximo 50 !")
+	@Column(name="usarname")
 	private String username;
 	
 	@NotNull (message="Senha não pode ser vázia!")
 	@Size(min=5, max=50, message="Senha minímo 5 - máximo 50 !")
+	@Column(name="password")
 	private String password;
 
 	public int getId() {

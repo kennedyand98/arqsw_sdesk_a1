@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ import br.usjt.arqsw.service.FilaService;
  * @author Kennedy Mota
  *
  */
+
+@Transactional
 @Controller
 public class ManterChamadosController {
 	private FilaService filaService;
@@ -72,7 +75,7 @@ public class ManterChamadosController {
 			}
 			fila = filaService.carregar(fila.getId());
 			model.addAttribute("fila", fila);
-			ArrayList<Chamado> chamados = new ArrayList<>();
+			List<Chamado> chamados = new ArrayList<>();
 			chamados = chamadoService.listarChamados(fila);
 			
 			model.addAttribute("chamados", chamados);
