@@ -24,8 +24,8 @@ public class ChamadoService {
 		return dao.listarChamados(fila);
 	}
 	
-	public Chamado salvarNovoChamado(Fila fila, Chamado chamado) throws IOException {
-		return dao.salvarNovoChamado(fila, chamado);
+	public Chamado salvarNovoChamado(Chamado chamado) throws IOException {
+		return dao.salvarNovoChamado(chamado);
 	}
 
 }

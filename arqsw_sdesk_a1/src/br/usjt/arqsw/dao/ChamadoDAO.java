@@ -1,6 +1,10 @@
 package br.usjt.arqsw.dao;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -60,7 +64,20 @@ public class ChamadoDAO {
 		return chamados;
 	}*/
 	
-	public Chamado salvarNovoChamado(Fila fila, Chamado chamado) throws IOException{
+	public Chamado salvarNovoChamado(Chamado chamado) throws IOException{
+		chamado.setStatus(Chamado.ABERTO);
+		Calendar c = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+		Date dataAberta;
+		
+		try {
+			dataAberta = sdf.parse(sdf.format(c.getTime()));
+			chamado.setDataAbertura(dataAberta);
+			System.out.println(dataAberta);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		manager.persist(chamado);
 		return chamado;
 	}

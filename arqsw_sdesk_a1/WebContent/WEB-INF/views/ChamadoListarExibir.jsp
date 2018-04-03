@@ -40,7 +40,7 @@
 		        	<c:forEach var="chamado" items="${chamados}">
 		        		<tr>
 		        			<td data-name="tblId">
-		        				<p class="text-center">${chamado.id}</p>
+		        				<p class="text-center">${chamado.numero}</p>
 		        			</td>
 		        			<td data-name="tblDescricao">
 		        				<p class="text-center">${chamado.descricao}</p>

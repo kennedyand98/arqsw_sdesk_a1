@@ -27,7 +27,7 @@
         	<div class="row">
         		<label>Fila:</label>
         		<form:errors path="fila.id" cssStyle="color:red"/><br>
-                <select class="form-control" name="id">
+                <select class="form-control" name="fila.id">
                 	<option value="0"></option>
                     	<c:forEach var="fila" items="${filas}">
                             <option value="${fila.id}">${fila.nome}</option>

@@ -16,7 +16,7 @@
 <body>
 	<c:import url="Menu.jsp" />
 		<div id="main" class="container">
-        	<h3 class="page-header align-center center">Chamado salvo com o número ${chamado.id}</h3>
+        	<h3 class="page-header align-center center">Chamado salvo com o número ${chamado.numero}</h3>
         </div>
 
 </body>

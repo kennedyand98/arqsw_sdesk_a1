@@ -100,9 +100,9 @@ public class ManterChamadosController {
 		
 	}
 	@RequestMapping("/salvar_novo_chamado")
-	public String salvarNovoChamado(Fila fila, Chamado chamado, BindingResult result, Model model) throws IOException {
+	public String salvarNovoChamado(Chamado chamado, BindingResult result, Model model) throws IOException {
 		
-		chamado = chamadoService.salvarNovoChamado(fila, chamado);
+		chamado = chamadoService.salvarNovoChamado(chamado);
 		
 		model.addAttribute("chamado", chamado);
 		

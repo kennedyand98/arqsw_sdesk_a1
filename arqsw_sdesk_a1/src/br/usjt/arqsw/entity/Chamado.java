@@ -9,11 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
 @Entity
+@Table(name="chamado")
 public class Chamado {
 
 	/**
@@ -22,16 +24,16 @@ public class Chamado {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_CHAMADO")
-	private int id;
+	private int numero;
 	
 	@NotNull
-	//@Column(name="DESCRICAO")
+	@Column(name="DESCRICAO")
 	@Size(max=100)
 	private String descricao;
 	
 	
 	@NotNull
-	//@Column(name="STATUS")
+	@Column(name="STATUS")
 	private String status;
 	
 	@NotNull
@@ -67,13 +69,13 @@ public class Chamado {
 	
 	
 
-	public int getId() {
-		return id;
+	public int getNumero() {
+		return numero;
 	}
 
 
-	public void setId(int id) {
-		this.id = id;
+	public void setNumero(int numero) {
+		this.numero = numero;
 	}
 
 
