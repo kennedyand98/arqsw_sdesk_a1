@@ -27,5 +27,13 @@ public class ChamadoService {
 	public Chamado salvarNovoChamado(Chamado chamado) throws IOException {
 		return dao.salvarNovoChamado(chamado);
 	}
+	
+	public Chamado consultarChamado(int id) throws IOException {
+		return dao.consultarChamado(id);
+	}
+	
+	public int fecharChamado(Chamado chamado) throws IOException {
+		return dao.fecharChamado(chamado);
+	}
 
 }

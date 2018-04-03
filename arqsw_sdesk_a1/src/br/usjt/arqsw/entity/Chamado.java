@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 @Entity
 @Table(name="chamado")
@@ -21,6 +23,8 @@ public class Chamado {
 	/**
 	 * 
 	 */
+	
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_CHAMADO")
@@ -36,11 +40,15 @@ public class Chamado {
 	@Column(name="STATUS")
 	private String status;
 	
+	
+	
 	@NotNull
+	@JsonFormat(pattern="dd-MM-yyyy")
 	@Column(name="DT_ABERTURA")
 	private Date dataAbertura;
 	
 	@Column(name="DT_FECHAMENTO")
+	@JsonFormat(pattern="dd-MM-yyyy")
 	private Date dataFechamento;
 	
 	
