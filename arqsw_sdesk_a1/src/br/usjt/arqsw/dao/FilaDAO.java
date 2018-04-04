@@ -1,6 +1,10 @@
 package br.usjt.arqsw.dao;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,6 +12,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
+import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
 
 
@@ -25,4 +30,8 @@ public class FilaDAO {
 		return manager.find(Fila.class, id);
 	}
 	
+	public Fila salvarNovaFila(Fila fila) throws IOException{
+		manager.persist(fila);
+		return fila;
+	}
 }

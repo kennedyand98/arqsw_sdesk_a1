@@ -5,11 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
 @Entity
+@Table(name = "usuario")
 public class Usuario{
 
 	/**
@@ -24,7 +26,7 @@ public class Usuario{
 	
 	@NotNull (message="Usuário não pode ser vázio!")
 	@Size(min=5, max=50, message="Usuário minímo 5 - máximo 50 !")
-	@Column(name="usarname")
+	@Column(name="username")
 	private String username;
 	
 	@NotNull (message="Senha não pode ser vázia!")

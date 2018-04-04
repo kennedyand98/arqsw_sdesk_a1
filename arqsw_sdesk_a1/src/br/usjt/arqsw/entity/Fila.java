@@ -17,6 +17,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name="fila")
 public class Fila{
+	
 	/**
 	 * 
 	 */
