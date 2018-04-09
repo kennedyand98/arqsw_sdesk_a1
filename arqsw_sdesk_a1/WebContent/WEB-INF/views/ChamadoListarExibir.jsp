@@ -16,7 +16,7 @@
 <body>
 	<c:import url="Menu.jsp" />
 	<section class="content">
-    	<div class="container-fluid">
+    	<div class="container-f	luid">
 			<div class="col-lg-1 col-md-6 col-sm-6 col-xs-6">
 				<a href="index" class="btn btn-info">Início</a>
 				
