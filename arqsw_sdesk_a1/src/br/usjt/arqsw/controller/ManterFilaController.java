@@ -3,6 +3,7 @@ package br.usjt.arqsw.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.usjt.arqsw.dao.ChamadoDAO;
 import br.usjt.arqsw.entity.Chamado;
@@ -30,6 +33,8 @@ public class ManterFilaController {
 	private FilaService filaService;
 	private ChamadoDAO chamadoDAO;
 	private ChamadoService chamadoService;
+	@Autowired
+	private ServletContext servletContext;
 	
 	@Autowired
 	public ManterFilaController (FilaService filaService, ChamadoDAO chamadoDAO, ChamadoService chamadoService) {
@@ -37,6 +42,7 @@ public class ManterFilaController {
 		this.chamadoDAO = chamadoDAO;
 		this.chamadoService = chamadoService;	
 	}
+	
 	
 	
 	private List<Fila> listarFilas() throws IOException{
@@ -58,13 +64,41 @@ public class ManterFilaController {
 		}
 	}
 	@RequestMapping("/salvar_nova_fila")
-	public String salvarNovaFila(Fila fila, BindingResult result, Model model) throws IOException {
-		
-		fila = filaService.salvarNovaFila(fila);
-		
-		model.addAttribute("fila", fila);
-		
-		return "FilaSalva";
+	public String salvarNovaFila(Fila fila, BindingResult result, Model model, @RequestParam("file") MultipartFile file) throws IOException {
+		try {
+			fila = filaService.salvarNovaFila(fila);
+			filaService.gravarImagem(servletContext, fila, file);
+			model.addAttribute("fila", fila);
+			return "FilaSalva";
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "Erro";
+	}
+	
+	@RequestMapping("/atualizar_fila")
+	public String atualizar(Fila fila, Model model, @RequestParam("File") MultipartFile file) {
+		try {
+			filaService.alterar(fila);
+			filaService.gravarImagem(servletContext, fila, file);
+			return "redirect:criar_nova_fila";
+		} catch (IOException e) {
+			e.printStackTrace();
+			model.addAttribute("erro", e);
+		}
+		return "Erro";
+	}
+	
+	@RequestMapping("/consultarFila")
+	public String consultarFila(Fila fila, Model model) {
+		try {
+			fila = filaService.carregar(fila.getId());
+			model.addAttribute("fila", fila);
+			return "ConsultarFila";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "Erro";
+		}
 	}
 	
 	@Transactional

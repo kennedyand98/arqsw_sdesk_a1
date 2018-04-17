@@ -31,6 +31,18 @@ public class Fila{
 	@Column(name="NM_FILA")
 	private String nome;
 	
+	@Size(max=256)
+	@Column(name="CAMINHO_FIGURA")
+	private String caminhoFigura;
+	
+	
+	public String getCaminhoFigura() {
+		return caminhoFigura;
+	}
+	
+	public void setCaminhoFigura(String caminhoFigura) {
+		this.caminhoFigura = caminhoFigura;
+	}
 	
 	public int getId() {
 		return id;

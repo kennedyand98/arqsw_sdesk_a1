@@ -16,12 +16,14 @@
 <body>
 	<c:import url="Menu.jsp" />
 	<div id="main" class="container align-center">
-		<form action="salvar_nova_fila" method="POST">
+		<form action="salvar_nova_fila" method="POST" enctype="multipart/form-data">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
         <h3 class="page-header">Nova Fila</h3>
         	<div class="row">
         		<label>Nome da Fila:</label>
-                    <input type="text" id="nome" name="nome" class="form-control" >
+                	<input type="text" id="nome" name="nome" class="form-control" >
+        		<label>Imagem:</label>
+        			<input type="file" id="file" name="file" class="form-control file">
         	</div>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">        	
@@ -45,6 +47,8 @@
 					<thead class="thead-dark">
 						<tr>
 							<th><p class="text-center">Nome</p></th>
+							<th><p class="text-center">Imagem</p></th>
+							<th><p class="text-center">Ver</p></th>
 							<th><p class="text-center">Editar</p></th>
 							<th><p class="text-center">Excluir</p></th>
 						</tr>
@@ -54,6 +58,16 @@
 							<tr>
 								<td data-name="nome">
 									<p class="text-center">${fila.nome }</p>
+								</td>
+								<td data-name="imagemFila">
+									<img alt="?" src="img/${fila.caminhoFigura }" height="20" width="20" class="img-circle">
+								</td>
+								<td data-name="consultar">
+									<p data-placement="top" data-toggle="tolltip" title="Consultar" class="text-center">
+										<a href="consultarFila?id=${fila.id }" class="btn btn-default btn-xs text-center">
+											<span class="glyphicon glyphicon-eye-open"></span>
+										</a>
+									</p>
 								</td>
 								<td data-name="editarFila">
 									<p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
